@@ -15,7 +15,7 @@ interface WeatherRoomDataDao {
     suspend fun saveWeatherRoomData(weatherRoomData: WeatherRoomData)
 
     @Query("SELECT * FROM weather_tbl")
-    suspend fun getWeatherRoomData(): Flow<WeatherRoomData>
+    fun getWeatherRoomData(): Flow<WeatherRoomData>
 
     @Query("DELETE FROM weather_tbl")
     suspend fun deleteAllWeatherRoomData()
