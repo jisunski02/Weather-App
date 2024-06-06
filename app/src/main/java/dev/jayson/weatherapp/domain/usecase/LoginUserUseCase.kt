@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 class LoginUserUseCase(private val userDataRepository: UserDataRepository) {
 
-    suspend fun invoke(username: String, password: String): Flow<UserData> {
+     fun invoke(username: String, password: String): Flow<UserData> {
         return userDataRepository.loginUser(username, password)
     }
 }

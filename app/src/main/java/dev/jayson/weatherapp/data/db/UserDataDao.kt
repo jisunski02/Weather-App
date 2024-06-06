@@ -13,6 +13,6 @@ interface UserDataDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun registerUser(userData: UserData)
 
-    @Query("SELECT * FROM user_tbl WHERE username=:username AND password=:password")
+    @Query("SELECT * FROM user_tbl WHERE username=:username AND password=:password LIMIT 1")
     fun loginUser(username: String, password: String): Flow<UserData>
 }

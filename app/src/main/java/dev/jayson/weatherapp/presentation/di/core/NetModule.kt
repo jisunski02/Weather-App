@@ -1,4 +1,4 @@
-package dev.jayson.weatherapp.presentation.core
+package dev.jayson.weatherapp.presentation.di.core
 
 import dagger.Module
 import dagger.Provides

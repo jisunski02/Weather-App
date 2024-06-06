@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 
 class RegisterUserViewModel(private val registerUserUseCase: RegisterUserUseCase): ViewModel() {
 
-    fun registerUser(userData: UserData) = viewModelScope.launch {
+    suspend fun registerUser(userData: UserData) = viewModelScope.launch {
         registerUserUseCase.invoke(userData)
     }
 }

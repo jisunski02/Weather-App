@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/currentWeatherFragment">
+
+    <fragment
+        android:id="@+id/currentWeatherFragment"
+        android:name="dev.jayson.weatherapp.CurrentWeatherFragment"
+        android:label="fragment_current_weather"
+        tools:layout="@layout/fragment_current_weather" >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/pastWeatherFragment"
+        android:name="dev.jayson.weatherapp.PastWeatherFragment"
+        android:label="fragment_past_weather"
+        tools:layout="@layout/fragment_past_weather" />
+
+</navigation>
