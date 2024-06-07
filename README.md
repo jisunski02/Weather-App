@@ -8,7 +8,12 @@ Simple android app that displays current weather and list of past weathers depen
 - Third Party API tool: Postman v9.1.1
 - Gradle Plug in Version: 8.1.4 
 - Gradle Version: 8.4
-- JDK version: 17 
+- JDK version: 17
+
+## Features
+- Offline login and registration
+- Retrieve real-time weather data based on the user's current location.
+- Offline access for previously fetched weather data
 
 ## Building the Project
 Upon opening the project make sure you add this to local.properties file -> apiKey=d7b062ae5d0b865a8ab3a2bf9d8ba9df
