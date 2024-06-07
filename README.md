@@ -24,13 +24,16 @@ MVVM (Model-View-ViewModel)+Clean Architecture(Use Case)
 MVVM (Model-View-ViewModel) is an architectural pattern used in software development to separate user interface logic from the business logic of the application. In MVVM, the Model represents the data and business logic, the View represents the user interface, and the ViewModel serves as an intermediary that connects the View and the Model, handling user interactions, data binding, and presentation logic. This separation enhances code maintainability, testability, and scalability, making it easier to manage and modify different components of the application independently. MVVM focuses on the separation of concerns within the application, Use Cases play a crucial role in defining the application's requirements and behaviors, which in turn influence the design and implementation of the ViewModel layer in MVVM
 
 
-## Additional Tech Stack Used
+## Android jetpack components and others
 
-    Live Data & ViewModel
+    Viewbinding
+    ViewModel
     Coroutines/Flow
-    Retrofit & OkHttp
+    Retrofit
     DaggerHilt
+    Navigation Architecture Components
     JUnit4(Unit Testing)
+    Truth
     Github(Version Control)
     Room
     Google Services
