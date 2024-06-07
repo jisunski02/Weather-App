@@ -22,7 +22,6 @@
         android:id="@+id/bnv_weather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         app:menu="@menu/bottom_menu"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

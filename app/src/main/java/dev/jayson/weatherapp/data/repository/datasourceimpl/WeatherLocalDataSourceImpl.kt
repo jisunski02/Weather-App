@@ -16,7 +16,7 @@ class WeatherLocalDataSourceImpl(private val weatherRoomDataDao: WeatherRoomData
         }
     }
 
-    override suspend fun getWeatherRoomData(): Flow<WeatherRoomData> {
+    override suspend fun getWeatherRoomData(): Flow<List<WeatherRoomData>> {
         return weatherRoomDataDao.getWeatherRoomData()
     }
 

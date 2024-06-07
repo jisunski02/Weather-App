@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 class GetWeatherRoomDataUseCase(private val weatherDataRepository: WeatherDataRepository) {
 
-    suspend fun invoke(): Flow<WeatherRoomData>{
+    suspend fun invoke(): Flow<List<WeatherRoomData>>{
         return weatherDataRepository.getWeatherRoomData()
     }
 

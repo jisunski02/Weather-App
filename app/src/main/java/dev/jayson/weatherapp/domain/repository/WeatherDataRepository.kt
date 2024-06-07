@@ -12,7 +12,7 @@ interface WeatherDataRepository {
 
     suspend fun saveWeatherRoomData(weatherRoomData: WeatherRoomData)
 
-    suspend fun getWeatherRoomData(): Flow<WeatherRoomData>
+    suspend fun getWeatherRoomData(): Flow<List<WeatherRoomData>>
 
     suspend fun deleteAllWeatherRoomData()
 }

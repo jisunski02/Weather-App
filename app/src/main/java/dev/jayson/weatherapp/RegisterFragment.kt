@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import dev.jayson.weatherapp.data.model.UserData
 import dev.jayson.weatherapp.databinding.FragmentLoginBinding
 import dev.jayson.weatherapp.databinding.FragmentRegisterBinding
@@ -68,6 +69,8 @@ class RegisterFragment : Fragment() {
                     registerUserViewModel.registerUser(userData)
                     Log.e("Registered","Success")
                     Toast.makeText(context, "Success Register", Toast.LENGTH_LONG).show()
+
+                    findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                 }
                 }
 

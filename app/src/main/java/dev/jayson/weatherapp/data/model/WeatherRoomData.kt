@@ -9,7 +9,8 @@ data class WeatherRoomData(
     val id: Int? = null,
     val city: String,
     val country: String,
-    val temperature: Double,
-    val timeSunrise: Int,
-    val timeSunset: Int
+    val weatherType: String,
+    val temperature: String,
+    val timeSunrise: String,
+    val timeSunset: String
 )

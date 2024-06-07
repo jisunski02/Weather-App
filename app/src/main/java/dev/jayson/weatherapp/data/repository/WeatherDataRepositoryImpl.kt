@@ -34,7 +34,7 @@ class WeatherDataRepositoryImpl(private val weatherRemoteDataSource: WeatherRemo
        return weatherLocalDataSource.saveWeatherRoomData(weatherRoomData)
     }
 
-    override suspend fun getWeatherRoomData(): Flow<WeatherRoomData> {
+    override suspend fun getWeatherRoomData(): Flow<List<WeatherRoomData>> {
         return weatherLocalDataSource.getWeatherRoomData()
     }
 
