@@ -8,29 +8,28 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import dagger.hilt.android.AndroidEntryPoint
-import dev.jayson.weatherapp.data.model.UserData
 import dev.jayson.weatherapp.data.util.Resource
 import dev.jayson.weatherapp.databinding.ActivityLoginBinding
 import dev.jayson.weatherapp.presentation.viewmodel.LoginUserViewModel
 import dev.jayson.weatherapp.presentation.viewmodel.RegisterUserViewModel
-import dev.jayson.weatherapp.presentation.viewmodel.WeatherViewModel
+import dev.jayson.weatherapp.presentation.viewmodel.WeatherRemoteViewModel
 import dev.jayson.weatherapp.presentation.viewmodel.factory.LoginUserViewModelFactory
 import dev.jayson.weatherapp.presentation.viewmodel.factory.RegisterUserViewModelFactory
-import dev.jayson.weatherapp.presentation.viewmodel.factory.WeatherViewModelFactory
+import dev.jayson.weatherapp.presentation.viewmodel.factory.WeatherRemoteViewModelFactory
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     @Inject
-    lateinit var weatherViewModelFactory: WeatherViewModelFactory
+    lateinit var weatherRemoteViewModelFactory: WeatherRemoteViewModelFactory
     @Inject
     lateinit var registerUserViewModelFactory: RegisterUserViewModelFactory
     @Inject
     lateinit var loginUserViewModelFactory: LoginUserViewModelFactory
 
     lateinit var binding: ActivityLoginBinding
-    lateinit var weatherViewModel: WeatherViewModel
+    lateinit var weatherRemoteViewModel: WeatherRemoteViewModel
     lateinit var registerUserViewModel: RegisterUserViewModel
     lateinit var loginUserViewModel: LoginUserViewModel
 
@@ -75,11 +74,11 @@ class LoginActivity : AppCompatActivity() {
 
     private fun getWeatherData(latitude: String, longitude: String, appId: String){
 
-        weatherViewModel.getWeatherData(latitude, longitude, appId)
+        weatherRemoteViewModel.getWeatherData(latitude, longitude, appId)
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
-                weatherViewModel.weatherStateFlow.collect{ resource ->
+                weatherRemoteViewModel.weatherStateFlow.collect{ resource ->
 
                     when(resource){
                         is Resource.Loading -> {

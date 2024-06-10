@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -20,7 +19,8 @@ import com.google.android.gms.location.LocationServices
 import dev.jayson.weatherapp.data.model.WeatherRoomData
 import dev.jayson.weatherapp.data.util.Resource
 import dev.jayson.weatherapp.databinding.FragmentCurrentWeatherBinding
-import dev.jayson.weatherapp.presentation.viewmodel.WeatherViewModel
+import dev.jayson.weatherapp.presentation.viewmodel.WeatherRemoteViewModel
+import dev.jayson.weatherapp.presentation.viewmodel.WeatherRoomViewModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -31,7 +31,8 @@ class CurrentWeatherFragment : Fragment() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private lateinit var binding: FragmentCurrentWeatherBinding
-    private lateinit var weatherViewModel: WeatherViewModel
+    private lateinit var weatherRemoteViewModel: WeatherRemoteViewModel
+    private lateinit var weatherRoomViewModel: WeatherRoomViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,22 +50,23 @@ class CurrentWeatherFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCurrentWeatherBinding.bind(view)
 
-        weatherViewModel = (activity as WeatherActivity).weatherViewModel
+        weatherRemoteViewModel = (activity as WeatherActivity).weatherRemoteViewModel
+        weatherRoomViewModel = (activity as WeatherActivity).weatherRoomViewModel
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
         checkLocationPermission()
-
+        getWeatherData()
     }
 
-    private fun getWeatherData(latitude: String, longitude: String, appId: String){
+    private fun getWeatherData(){
+
         viewLifecycleOwner.lifecycleScope.launch {
             // Repeat this coroutine as long as the lifecycle is in the CREATED state
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
 
-                weatherViewModel.getWeatherData(latitude, longitude, appId)
-
-                weatherViewModel.weatherStateFlow.collect{ resource->
+                //move this to checkLocation
+                weatherRemoteViewModel.weatherStateFlow.collect{ resource->
 
                     when(resource){
                         is Resource.Loading -> {
@@ -97,10 +99,27 @@ class CurrentWeatherFragment : Fragment() {
                                 binding.tvSunset.text = unixTimestampTo12HrTimeHourMinute(weatherData.sys.sunset)
 
                                 //Save weather data in room DB everytime app opens
-                                val weatherRoomData = WeatherRoomData(city = weatherData.name, country = weatherData.sys.country,
-                                                        weatherType = weatherData.weather[0].main, temperature = "${kelvinToCelsius(weatherData.main.temp)}\u00B0C",
-                                                        timeSunrise = unixTimestampTo12HrTimeHourMinute(weatherData.sys.sunrise), timeSunset = unixTimestampTo12HrTimeHourMinute(weatherData.sys.sunset))
-                                weatherViewModel.saveWeatherRoomData(weatherRoomData)
+                                var count = 0
+                                count++
+
+                                weatherRoomViewModel.isDataSaved.collect{ isStateSaved->
+
+
+                                    Log.e("Count", "$count")
+
+                                    if(isStateSaved){
+                                        Log.e("Saved", "No")
+                                    }
+
+                                    else{
+                                        val weatherRoomData = WeatherRoomData(city = weatherData.name, country = weatherData.sys.country,
+                                            weatherType = weatherData.weather[0].main, temperature = "${kelvinToCelsius(weatherData.main.temp)}\u00B0C",
+                                            timeSunrise = unixTimestampTo12HrTimeHourMinute(weatherData.sys.sunrise), timeSunset = unixTimestampTo12HrTimeHourMinute(weatherData.sys.sunset))
+                                        weatherRoomViewModel.saveWeatherRoomData(weatherRoomData)
+                                        Log.e("Saved", "Yes")
+                                    }
+
+                                }
 
                             }
                         }
@@ -167,7 +186,8 @@ class CurrentWeatherFragment : Fragment() {
                     // Use the latitude and longitude as needed
                     //Toast.makeText(requireContext(), "Latitude: $latitude, Longitude: $longitude", Toast.LENGTH_LONG).show()
                     //Log.e("latitude", "$latitude $longitude")
-                    getWeatherData(latitude.toString(), longitude.toString(), BuildConfig.API_KEY)
+                    weatherRemoteViewModel.getWeatherData(latitude.toString(), longitude.toString(), BuildConfig.API_KEY)
+                    Log.e("ApiCall", "Success")
 
                 } else {
                     Toast.makeText(requireContext(), "Location not available", Toast.LENGTH_SHORT).show()
@@ -175,8 +195,4 @@ class CurrentWeatherFragment : Fragment() {
             }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModelStore.clear()
-    }
 }
